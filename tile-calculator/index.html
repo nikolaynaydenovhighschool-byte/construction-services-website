@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bathroom Tile Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-inner">
+                <h1><i class="fas fa-th-large"></i> Bathroom Tile Calculator</h1>
+                <p class="subtitle">Plan your bathroom renovation with precision</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="app-main">
+            <!-- Input Panel -->
+            <section class="input-section">
+                <h2 class="section-title">Bathroom Parameters</h2>
+                
+                <form id="calculatorForm" class="calculator-form">
+                    <!-- Floor Parameters -->
+                    <fieldset class="form-fieldset">
+                        <legend class="fieldset-legend">
+                            <i class="fas fa-home"></i> Floor Specifications
+                        </legend>
+                        
+                        <div class="form-group-row">
+                            <div class="form-group">
+                                <label for="floorWidth">Floor Width (mm)</label>
+                                <input type="number" id="floorWidth" name="floorWidth" min="100" max="10000" value="2000" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="floorLength">Floor Length (mm)</label>
+                                <input type="number" id="floorLength" name="floorLength" min="100" max="10000" value="2500" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group-row">
+                            <div class="form-group">
+                                <label for="floorTileWidth">Floor Tile Width (mm)</label>
+                                <input type="number" id="floorTileWidth" name="floorTileWidth" min="50" max="1000" value="300" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="floorTileLength">Floor Tile Length (mm)</label>
+                                <input type="number" id="floorTileLength" name="floorTileLength" min="50" max="1000" value="300" required>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- Wall Parameters -->
+                    <fieldset class="form-fieldset">
+                        <legend class="fieldset-legend">
+                            <i class="fas fa-cube"></i> Wall Specifications
+                        </legend>
+                        
+                        <div class="form-group-row">
+                            <div class="form-group">
+                                <label for="wallHeight">Wall Height (mm)</label>
+                                <input type="number" id="wallHeight" name="wallHeight" min="1000" max="4000" value="2400" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group-row">
+                            <div class="form-group">
+                                <label for="wallTileWidth">Wall Tile Width (mm)</label>
+                                <input type="number" id="wallTileWidth" name="wallTileWidth" min="50" max="1000" value="250" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="wallTileHeight">Wall Tile Height (mm)</label>
+                                <input type="number" id="wallTileHeight" name="wallTileHeight" min="50" max="1000" value="250" required>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- Door Parameters -->
+                    <fieldset class="form-fieldset">
+                        <legend class="fieldset-legend">
+                            <i class="fas fa-door-open"></i> Door Opening
+                        </legend>
+                        
+                        <div class="form-group-row">
+                            <div class="form-group">
+                                <label for="doorWidth">Door Width (mm)</label>
+                                <input type="number" id="doorWidth" name="doorWidth" min="0" max="3000" value="900" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="doorHeight">Door Height (mm)</label>
+                                <input type="number" id="doorHeight" name="doorHeight" min="0" max="4000" value="2100" required>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- Waste Allowance -->
+                    <fieldset class="form-fieldset">
+                        <legend class="fieldset-legend">
+                            <i class="fas fa-exclamation-triangle"></i> Waste Allowance
+                        </legend>
+                        
+                        <div class="form-group-row">
+                            <div class="form-group">
+                                <label for="wastePercentage">Waste Allowance (%)</label>
+                                <input type="number" id="wastePercentage" name="wastePercentage" min="0" max="50" value="10" step="0.5" required>
+                                <span class="form-hint">Typical range: 5-15% for cutting and fitting</span>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- Action Buttons -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-calculator"></i> Calculate
+                        </button>
+                        <button type="reset" class="btn btn-secondary">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Results Panel -->
+            <section class="results-section" id="resultsSection" style="display: none;">
+                <h2 class="section-title">Calculation Results</h2>
+                
+                <div class="results-container">
+                    <!-- Results Cards -->
+                    <div class="results-grid">
+                        <div class="result-card floor-card">
+                            <div class="card-header">
+                                <i class="fas fa-home"></i>
+                                <h3>Floor Tiles</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="result-value" id="floorTilesWithoutWaste">0</div>
+                                <div class="result-label">Without Waste</div>
+                                <div class="result-value highlight" id="floorTilesWithWaste">0</div>
+                                <div class="result-label">With Waste Allowance</div>
+                            </div>
+                        </div>
+
+                        <div class="result-card wall-card">
+                            <div class="card-header">
+                                <i class="fas fa-cube"></i>
+                                <h3>Wall Tiles</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="result-value" id="wallTilesWithoutWaste">0</div>
+                                <div class="result-label">Without Waste</div>
+                                <div class="result-value highlight" id="wallTilesWithWaste">0</div>
+                                <div class="result-label">With Waste Allowance</div>
+                            </div>
+                        </div>
+
+                        <div class="result-card total-card">
+                            <div class="card-header">
+                                <i class="fas fa-boxes"></i>
+                                <h3>Total Tiles</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="result-value" id="totalTilesWithoutWaste">0</div>
+                                <div class="result-label">Without Waste</div>
+                                <div class="result-value highlight" id="totalTilesWithWaste">0</div>
+                                <div class="result-label">With Waste Allowance</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Details Section -->
+                    <div class="details-section">
+                        <h3 class="details-title">Calculation Details</h3>
+                        <div class="details-grid">
+                            <div class="detail-item">
+                                <span class="detail-label">Floor Area:</span>
+                                <span class="detail-value" id="floorArea">0 m²</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Wall Area:</span>
+                                <span class="detail-value" id="wallArea">0 m²</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Door Opening Area:</span>
+                                <span class="detail-value" id="doorArea">0 m²</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Floor Tile Area:</span>
+                                <span class="detail-value" id="floorTileArea">0 m²</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Wall Tile Area:</span>
+                                <span class="detail-value" id="wallTileArea">0 m²</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Waste Tiles Added:</span>
+                                <span class="detail-value" id="wasteTilesAdded">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Visualization Panel -->
+            <section class="visualization-section" id="visualizationSection" style="display: none;">
+                <h2 class="section-title">Bathroom Layout Visualization</h2>
+                
+                <div class="visualization-container">
+                    <!-- Floor Plan -->
+                    <div class="visualization-card">
+                        <h3 class="visualization-title">Floor Plan</h3>
+                        <canvas id="floorCanvas" width="600" height="600" class="visualization-canvas"></canvas>
+                    </div>
+
+                    <!-- Wall Elevations -->
+                    <div class="walls-grid">
+                        <div class="visualization-card">
+                            <h3 class="visualization-title">Wall 1 (Width)</h3>
+                            <canvas id="wall1Canvas" width="400" height="300" class="visualization-canvas"></canvas>
+                        </div>
+                        <div class="visualization-card">
+                            <h3 class="visualization-title">Wall 2 (Length)</h3>
+                            <canvas id="wall2Canvas" width="400" height="300" class="visualization-canvas"></canvas>
+                        </div>
+                        <div class="visualization-card">
+                            <h3 class="visualization-title">Wall 3 (Width)</h3>
+                            <canvas id="wall3Canvas" width="400" height="300" class="visualization-canvas"></canvas>
+                        </div>
+                        <div class="visualization-card">
+                            <h3 class="visualization-title">Wall 4 (Length)</h3>
+                            <canvas id="wall4Canvas" width="400" height="300" class="visualization-canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>&copy; 2026 Bathroom Tile Calculator. All measurements in millimeters. Always verify calculations with a professional.</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/calculator.js"></script>
+    <script src="js/visualizer.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
